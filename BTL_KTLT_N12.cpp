@@ -20,9 +20,9 @@ void menu(giohang *&giocuatoi);
 void taogiohang(giohang *&giocuatoi);
 void chonhang(giohang *&giocuatoi);
 void xemgiohang(giohang *giohangcuatoi);
-int demchucai(char str[]);
 int demchuso(int n);
 void xoamotmathang(giohang *&giohangcuatoi);
+
 int main(void)
 {
     giohang *giocuatoi = (giohang *)malloc(30 * sizeof(giohang));
@@ -92,7 +92,20 @@ void taogiohang(giohang *&giocuatoi)
 }
 void chonhang(giohang *&giocuatoi)
 {
+    printf("Nhap so san pham ban can mua: ");
+    scanf("%d", &giocuatoi->sosanpham);
     int n = giocuatoi->sosanpham;
+    for (int i = 0; i < n; i++)
+    {
+        printf("\nNhap ten san pham thu %d: ", i + 1);
+        fflush(stdin);
+        gets(giocuatoi->dssp[n].tensp);
+        printf("Nhap so luong %s: ", giocuatoi->dssp[n].tensp);
+        /*Bug*/
+        scanf("%d", &giocuatoi->dssp[n].soluong);
+        printf("Nhap gia cua %s: ", giocuatoi->dssp[n].tensp);
+        scanf("%d", &giocuatoi->dssp[n].gia);
+    }
     /*
 Khi chọn 2 từ Menu, thực hiện các yêu cầu dưới đây:
      Hiển thị “Nhap ten san pham:”
@@ -103,14 +116,6 @@ Viết hàm “chonhang” để thực hiện chức năng này theo yêu cầu
      Tăng số lượng sản phẩm lên 1 sau mỗi lần chọn hàng
     */
 
-    printf("Nhap ten san pham: ");
-    fflush(stdin);
-    gets(giocuatoi->dssp[n].tensp);
-    printf("Nhap so luong %s: ", giocuatoi->dssp[n].tensp);
-    /*Bug*/
-    scanf("%d", &giocuatoi->dssp[n].soluong);
-    printf("Nhap gia cua %s: ", giocuatoi->dssp[n].tensp);
-    scanf("%d", &giocuatoi->dssp[n].gia);
     giocuatoi->sosanpham++;
 }
 void xemgiohang(giohang *giohangcuatoi)
@@ -124,24 +129,19 @@ void xemgiohang(giohang *giohangcuatoi)
 
     */
 
-    printf("STT  ||Ten san pham                  ||Gia       ||So luong  \n");
+    printf("   STT   ||         Ten san pham         ||    Gia    ||  So luong  \n");
     for (int i = 0; i < giohangcuatoi->sosanpham; i++)
     {
         printf("%d", i + 1);
+        for (int i = 0; i < 9 - demchuso(i); i++)
+            printf(" ");
         printf("%s", giohangcuatoi->dssp[i].tensp);
         printf("%d", giohangcuatoi->dssp[i].gia);
         printf("%d", giohangcuatoi->dssp[i].soluong);
         printf("\n");
     }
 }
-int demchucai(char str[])
-{
-    int d = 0;
-    for (int i = 0; i < strlen(str); i++)
-        if ((str[i] >= '65' && str[i] <= '90') || (str[i] >= '97' && str[i] <= '122'))
-            d++;
-    return d;
-}
+
 int demchuso(int n)
 {
     int d = 0;
