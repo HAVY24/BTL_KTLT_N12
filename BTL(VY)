@@ -1,0 +1,143 @@
+#include <stdio.h>
+#include <string.h>
+#include <conio.h>
+
+#define MAX_NHAN_VIEN 100
+
+struct NhanVien {
+    int id;
+    char hoTen[30];
+    char gioiTinh[5];
+    char ngaySinh[15];
+    char diaChi[50];
+};
+
+struct NhanVien danhSachNhanVien[MAX_NHAN_VIEN];
+int soLuongNhanVien = 0;
+
+void themNhanVien() {
+    if (soLuongNhanVien >= MAX_NHAN_VIEN) {
+        printf("Danh sach nhan vien da day. Khong the them nhan vien moi.\n");
+        return;
+    }
+
+    struct NhanVien nhanVienMoi;
+
+    printf("Nhap thong tin nhan vien moi:\n");
+
+    printf("Nhap ID: ");
+    scanf("%d", &nhanVienMoi.id);
+    fflush(stdin);
+
+    printf("Nhap ho ten: ");
+    fflush(stdin);
+	fgets(nhanVienMoi.hoTen, sizeof(nhanVienMoi.hoTen), stdin);
+    nhanVienMoi.hoTen[strcspn(nhanVienMoi.hoTen, "\n")] = '\0';
+
+    printf("Nhap gioi tinh(Nam/ Nu/ Khac): ");
+    fflush(stdin);
+	fgets(nhanVienMoi.gioiTinh, sizeof(nhanVienMoi.gioiTinh), stdin);
+    nhanVienMoi.gioiTinh[strcspn(nhanVienMoi.gioiTinh, "\n")] = '\0';
+
+    printf("Nhap ngay sinh(DD/MM/YY): ");
+    fflush(stdin);
+	fgets(nhanVienMoi.ngaySinh, sizeof(nhanVienMoi.ngaySinh), stdin);
+    nhanVienMoi.ngaySinh[strcspn(nhanVienMoi.ngaySinh, "\n")] = '\0';
+
+    printf("Nhap dia chi: ");
+    fflush(stdin);
+	fgets(nhanVienMoi.diaChi, sizeof(nhanVienMoi.diaChi), stdin);
+    nhanVienMoi.diaChi[strcspn(nhanVienMoi.diaChi, "\n")] = '\0';
+
+    danhSachNhanVien[soLuongNhanVien++] = nhanVienMoi;
+
+    printf("Them nhan vien thanh cong!\n");
+}
+
+void inDanhSachNhanVien() {
+    if (soLuongNhanVien == 0) {
+        printf("Chua co nhan vien nao trong danh sach.\n");
+        return;
+    }
+
+    printf("Danh sach nhan vien:\n");
+    printf("%-5s %-20s %-10s %-15s %-30s\n", "ID", "Ho ten", "Gioi tinh", "Ngay sinh", "Dia chi");
+
+    for (int i = 0; i < soLuongNhanVien; i++) {
+        struct NhanVien nhanVien = danhSachNhanVien[i];
+        printf("%-5d %-20s %-10s %-15s %-30s\n", nhanVien.id, nhanVien.hoTen, nhanVien.gioiTinh, nhanVien.ngaySinh, nhanVien.diaChi);
+    }
+}
+
+void xoaNhanVien() {
+    if (soLuongNhanVien == 0) {
+        printf("Chua co nhan vien nao trong danh sach.\n");
+return;
+}
+int idCanXoa;
+printf("Nhap ID cua nhan vien muon xoa: ");
+scanf("%d", &idCanXoa);
+
+int viTriCanXoa = -1;
+for (int i = 0; i < soLuongNhanVien; i++) {
+    if (danhSachNhanVien[i].id == idCanXoa) {
+        viTriCanXoa = i;
+        break;
+    }
+}
+
+if (viTriCanXoa == -1) {
+    printf("Khong tim thay nhan vien co ID la %d trong danh sach.\n", idCanXoa);
+    return;
+}
+
+for (int i = viTriCanXoa; i < soLuongNhanVien - 1; i++) {
+    danhSachNhanVien[i] = danhSachNhanVien[i + 1];
+}
+
+soLuongNhanVien--;
+
+printf("Xoa nhan vien co ID la %d thanh cong!\n", idCanXoa);
+}
+
+void thoat() {
+printf("Cam on ban da su dung chuong trinh!\n");
+// Thoat khoi chuong trinh
+}
+
+int main() {
+int luaChon;
+do {
+    printf("\n-------------------------\n");
+    printf("MENU CHUONG TRINH QUAN LY NHAN VIEN\n");
+    printf("1. Them nhan vien\n");
+    printf("2. In danh sach nhan vien\n");
+    printf("3. Xoa nhan vien\n");
+    printf("4. Thoat\n");
+    printf("-------------------------\n");
+    printf("Nhap lua chon cua ban (1-4): ");
+    scanf("%d", &luaChon);
+
+    switch (luaChon) {
+        case 1:
+            themNhanVien();
+            break;
+        case 2:
+            inDanhSachNhanVien();
+            break;
+        case 3:
+            xoaNhanVien();
+            break;
+        case 4:
+            thoat();
+            break;
+        default:
+            printf("Lua chon khong hop le. Vui long chon lai!\n");
+            break;
+    }
+} while (luaChon != 4);
+
+return 0;
+}
+
+
